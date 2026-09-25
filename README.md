@@ -48,8 +48,6 @@ It only enqueues samples; all processing happens on the main thread.
 3. Turn on a fan or play music. Watch the floor adapt. Where does energy-based VAD fail?
 4. Whisper instead of talking. Why does it struggle? (Hint: whispers have little low-frequency energy.)
 
-## Interview talking points
-
 - Why energy VAD fails in noise, and why neural VADs (Silero) and semantic turn detectors exist
 - The latency/accuracy trade-off of the release window: every ms of hangover adds directly to response latency
 - Why the noise floor only adapts on quiet frames
