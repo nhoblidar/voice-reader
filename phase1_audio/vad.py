@@ -69,6 +69,7 @@ class EnergyVAD:
         self._calib_levels: list[float] = []
         self._preroll: deque[np.ndarray] = deque(maxlen=preroll_frames)
         self._utterance: list[np.ndarray] = []
+        self.last_level_db = -200.0
 
     @property
     def threshold_db(self) -> float:
