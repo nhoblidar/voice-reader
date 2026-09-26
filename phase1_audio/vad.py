@@ -48,14 +48,16 @@ class VADEvent:
 class EnergyVAD:
     def __init__(
         self,
-        margin_db: float = 12.0,       # how far above the noise floor counts as speech
-        attack_frames: int = 3,        # 60 ms of loudness to start
-        release_frames: int = 25,      # 500 ms of quiet to end
-        preroll_frames: int = 10,      # keep 200 ms before speech starts
-        calibration_frames: int = 25,  # 500 ms to learn the room
-        noise_adapt: float = 0.05,     # how fast the floor tracks changes (0..1)
+        margin_db: float = 12.0,         # how far above the noise floor counts as speech
+        min_threshold_db: float = -55.0, # never treat anything quieter than this as speech 
+        attack_frames: int = 3,          # 60 ms of loudness to start
+        release_frames: int = 25,        # 500 ms of quiet to end
+        preroll_frames: int = 10,        # keep 200 ms before speech starts
+        calibration_frames: int = 25,    # 500 ms to learn the room
+        noise_adapt: float = 0.05,       # how fast the floor tracks changes (0..1)
     ):
         self.margin_db = margin_db
+        self.min_threshold_db = min_threshold_db
         self.attack_frames = attack_frames
         self.release_frames = release_frames
         self.calibration_frames = calibration_frames
@@ -73,7 +75,7 @@ class EnergyVAD:
 
     @property
     def threshold_db(self) -> float:
-        return self.noise_db + self.margin_db
+        return max(self.min_threshold_db, self.noise_db + self.margin_db)
 
     @property
     def calibrating(self) -> bool:
